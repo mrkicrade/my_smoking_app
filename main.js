@@ -20,12 +20,14 @@ let seconds = document.querySelector('.seconds');
 let int;
 let todayTabb = today.querySelector('.procent');
 // let cigaretes = 0;
+
+if (currentDay != localStorage.day) {
+	localStorage.clear();
+	localStorage.today_cigaretes = 0;
+}
+
 if (localStorage.today_cigaretes) {
 	cigaretes = parseInt(localStorage.today_cigaretes)
-	todayTabb.innerHTML = cigaretes;
-	// Ovu sledecu liniju koda sam video od tebe. Iskreno, nisam imao pojma za ovo...
-	var theCSSprop = parseInt(window.getComputedStyle(todayTabb, null).getPropertyValue("height"));
-	todayTabb.style.height = cigaretes * 4 + "%";
 } else {
 	cigaretes = 0;
 }
@@ -34,10 +36,6 @@ if (localStorage.today_cigaretes) {
 //E V E N T S
 
 smokeBtn.addEventListener('click' , startSmoke);
-
-if (localStorage.day != currentDay) {
-	localStorage.clear();
-}
 
 // localStorage.clear();
 startApp();
@@ -50,6 +48,7 @@ function startApp(){
 	// console.log(currentDay);
 	localStorage.setItem('day' , currentDay);
 	smokeBtn.style.display = 'block';
+	displaySmoked();
 }
 
 // console.log(day);
@@ -69,9 +68,6 @@ function startSmoke(){
 	localStorage.setItem('today_cigaretes' , cigaretes + 1);
 	if (localStorage.today_cigaretes) {
 		cigaretes = parseInt(localStorage.today_cigaretes)
-		todayTabb.innerHTML = cigaretes;
-		var theCSSprop = parseInt(window.getComputedStyle(todayTabb, null).getPropertyValue("height"));
-		todayTabb.style.height = cigaretes * 4 + "%";
 	}
 	todayCigaretes();
 }
@@ -121,10 +117,13 @@ function stopwatch(){
 }
 
 function todayCigaretes(){
-	// let todayTabb = today.querySelector('.procent');
-	// // todayTabb.innerHTML = parseInt(localStorage.today_cigaretes) || 0;
-	// todayTabb.innerHTML = localStorage[today_cigaretes] || 0;
-	// var theCSSprop = parseInt(window.getComputedStyle(todayTabb, null).getPropertyValue("height"));
-	let x = parseInt(localStorage.today_cigaretes) * 4;
+	displaySmoked();
+	var theCSSprop = parseInt(window.getComputedStyle(todayTabb, null).getPropertyValue("height"));
+	todayTabb.style.height = cigaretes * 5 + "%";
+}
+
+function displaySmoked(){
+	todayTabb.innerHTML = cigaretes;
+	let x = parseInt(localStorage.today_cigaretes) * 5;
 	todayTabb.style.height = x + "%";
 }
